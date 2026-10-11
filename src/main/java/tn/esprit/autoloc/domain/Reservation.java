@@ -13,6 +13,18 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class Reservation {
 
+    @ManyToOne
+    @JoinColumn(name = "client_id")
+    private Client client;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "vehicule_id")
+    private Vehicule vehicule;
+
+    @OneToOne
+    @JoinColumn(name = "contrat_id", unique = true)
+    private Contrat contrat;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idReservation;

@@ -13,6 +13,10 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class Maintenance {
 
+    @ManyToOne
+    @JoinColumn(name = "vehicule_id")
+    private Vehicule vehicule;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idMaintenance;

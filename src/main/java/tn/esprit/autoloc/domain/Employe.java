@@ -11,6 +11,10 @@ import lombok.*;
 @AllArgsConstructor
 public class Employe {
 
+    @ManyToOne(optional = true)
+    @JoinColumn(name = "agence_id")
+    private Agence agence;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idEmploye;
