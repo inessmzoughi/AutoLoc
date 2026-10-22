@@ -7,6 +7,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
+import tn.esprit.autoloc.service.IAgenceService;
+
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import tn.esprit.autoloc.domain.Agence;
 import tn.esprit.autoloc.domain.CategorieVehicule;
@@ -141,6 +145,21 @@ public class AgenceTests {
         }
 
         fail(sb.toString());
+    }
+    @Autowired
+    private IAgenceService agenceService;
+
+    @Test
+    void createAgence() {
+        Agence agence = new Agence();
+        agence.setNom("Agence Sfax");
+        agence.setVille("Sfax");
+        agence.setAdresse("5 Rue de la République");
+        agence.setTelephone("74123456");
+
+        Agence saved = agenceService.create(agence);
+
+        assertNotNull(saved.getIdAgence());
     }
 }
 
