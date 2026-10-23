@@ -1,5 +1,5 @@
 package tn.esprit.autoloc.service;
-
+import tn.esprit.autoloc.exception.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import tn.esprit.autoloc.Utils;
@@ -38,7 +38,7 @@ public class BasicAgenceServiceImpl implements IAgenceService {
     @Override
     public Agence findById(Long id) {
         return agenceRepository.findById(id)
-                .orElseThrow(() -> new ApiException("Agence introuvable avec l'id " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Agence introuvable avec l'id " + id));
     }
 
     @Override
@@ -62,7 +62,7 @@ public class BasicAgenceServiceImpl implements IAgenceService {
     @Override
     public void deleteById(Long id) {
         if (!agenceRepository.existsById(id)) {
-            throw new ApiException("Agence introuvable avec l'id " + id);
+            throw new ResourceNotFoundException("Agence introuvable avec l'id " + id);
         }
         agenceRepository.deleteById(id);
     }

@@ -1,5 +1,6 @@
 package tn.esprit.autoloc.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -13,14 +14,17 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class Reservation {
 
+    @JsonIgnoreProperties("reservations")
     @ManyToOne
     @JoinColumn(name = "client_id")
     private Client client;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnoreProperties({"agence", "reservations", "equipements"})
+    @ManyToOne
     @JoinColumn(name = "vehicule_id")
     private Vehicule vehicule;
 
+    @JsonIgnoreProperties("paiements")
     @OneToOne
     @JoinColumn(name = "contrat_id", unique = true)
     private Contrat contrat;

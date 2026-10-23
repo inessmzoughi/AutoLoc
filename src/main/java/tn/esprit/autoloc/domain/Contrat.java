@@ -1,5 +1,6 @@
 package tn.esprit.autoloc.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -16,6 +17,7 @@ import java.util.Set;
 @AllArgsConstructor
 public class Contrat {
 
+    @JsonIgnoreProperties("contrat")
     @OneToMany(mappedBy = "contrat", fetch = FetchType.EAGER)
     private Set<Paiement> paiements = new HashSet<>();
 

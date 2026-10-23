@@ -1,0 +1,59 @@
+package tn.esprit.autoloc.web.controller;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
+import tn.esprit.autoloc.domain.Contrat;
+import tn.esprit.autoloc.service.IContratService;
+
+import java.util.List;
+
+@Tag(name = "Contrats", description = "Gestion des contrats")
+@RestController
+@RequestMapping("contrats")
+@RequiredArgsConstructor
+public class ContratController {
+
+    private final IContratService service;
+
+    @Operation(summary = "Lister les contrats")
+    @GetMapping
+    public List<Contrat> findAll() {
+        return service.findAll();
+    }
+
+    @Operation(summary = "Consulter un contrat")
+    @ApiResponse(responseCode = "404", description = "Contrat introuvable")
+    @GetMapping("{id}")
+    public Contrat findById(@PathVariable Long id) {
+        return service.findById(id);
+    }
+
+    @Operation(summary = "Ajouter un contrat")
+    @ApiResponse(responseCode = "201", description = "Contrat créé")
+    @ApiResponse(responseCode = "400", description = "Données invalides ou identifiant déjà rempli")
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public Contrat create(@RequestBody Contrat contrat) {
+        return service.create(contrat);
+    }
+
+    @Operation(summary = "Modifier un contrat")
+    @ApiResponse(responseCode = "404", description = "Contrat introuvable")
+    @PutMapping("{id}")
+    public Contrat update(@PathVariable Long id, @RequestBody Contrat contrat) {
+        return service.update(id, contrat);
+    }
+
+    @Operation(summary = "Supprimer un contrat")
+    @ApiResponse(responseCode = "204", description = "Contrat supprimé")
+    @ApiResponse(responseCode = "404", description = "Contrat introuvable")
+    @DeleteMapping("{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteById(@PathVariable Long id) {
+        service.deleteById(id);
+    }
+}

@@ -1,5 +1,6 @@
 package tn.esprit.autoloc.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -11,6 +12,7 @@ import lombok.*;
 @AllArgsConstructor
 public class Employe {
 
+    @JsonIgnoreProperties({"vehicules", "employes"})
     @ManyToOne(optional = true)
     @JoinColumn(name = "agence_id")
     private Agence agence;

@@ -1,5 +1,7 @@
 package tn.esprit.autoloc.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -15,13 +17,16 @@ import java.util.Set;
 @AllArgsConstructor
 public class Vehicule {
 
+    @JsonIgnoreProperties({"vehicules", "employes"})
     @ManyToOne(optional = true)
     @JoinColumn(name = "agence_id")
     private Agence agence;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "vehicule", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private Set<Reservation> reservations = new HashSet<>();
 
+    @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "vehicule_equipement",
             joinColumns = @JoinColumn(name = "vehicule_id"),

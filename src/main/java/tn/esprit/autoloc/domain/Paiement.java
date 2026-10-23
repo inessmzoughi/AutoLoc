@@ -1,5 +1,6 @@
 package tn.esprit.autoloc.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -14,6 +15,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class Paiement {
 
+    @JsonIgnoreProperties("paiements")
     @ManyToOne
     @JoinColumn(name = "contrat_id")
     private Contrat contrat;

@@ -1,5 +1,6 @@
 package tn.esprit.autoloc.domain;
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -14,12 +15,13 @@ import java.util.Set;
 @AllArgsConstructor
 public class Agence {
 
+    @JsonIgnoreProperties({"agence", "reservations", "equipements"})
     @OneToMany(mappedBy = "agence", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<Vehicule> vehicules = new HashSet<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "agence", fetch = FetchType.LAZY)
     private Set<Employe> employes = new HashSet<>();
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idAgence;
