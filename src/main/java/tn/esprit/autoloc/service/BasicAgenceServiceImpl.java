@@ -6,7 +6,7 @@ import tn.esprit.autoloc.Utils;
 import tn.esprit.autoloc.domain.Agence;
 import tn.esprit.autoloc.exception.ApiException;
 import tn.esprit.autoloc.repository.IAgenceRepository;
-
+import tn.esprit.autoloc.calcul.VehiculeOffre;
 import java.util.List;
 
 @Service
@@ -14,7 +14,10 @@ import java.util.List;
 public class BasicAgenceServiceImpl implements IAgenceService {
 
     private final IAgenceRepository agenceRepository;
-
+    @Override
+    public String simuler(Long id, int jours, VehiculeOffre offre) {
+        throw new UnsupportedOperationException("Simulation non supportée par l'implémentation basique");
+    }
     @Override
     public boolean check(Agence agence, boolean isNew) {
         return agence != null

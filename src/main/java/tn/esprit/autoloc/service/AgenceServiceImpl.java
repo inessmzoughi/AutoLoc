@@ -1,17 +1,27 @@
+
 package tn.esprit.autoloc.service;
 
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
+
 import tn.esprit.autoloc.Utils;
 import tn.esprit.autoloc.domain.Agence;
+import tn.esprit.autoloc.domain.Vehicule;
 import tn.esprit.autoloc.repository.IAgenceRepository;
+import tn.esprit.autoloc.calcul.VehiculeOffre;
 
 @Primary
 @Service
-public class AgenceServiceImpl extends GenericServiceImpl<Agence, Long> implements IAgenceService {
+public class AgenceServiceImpl extends GenericServiceImpl<Agence, Long>
+        implements IAgenceService {
 
-    public AgenceServiceImpl(IAgenceRepository repository) {
+    private final IVehiculeService vehiculeService;
+
+    // Constructeur avec injection des dépendances
+    public AgenceServiceImpl(IAgenceRepository repository,
+                             IVehiculeService vehiculeService) {
         super(repository);
+        this.vehiculeService = vehiculeService;
     }
 
     @Override
@@ -44,5 +54,24 @@ public class AgenceServiceImpl extends GenericServiceImpl<Agence, Long> implemen
     @Override
     public boolean hasVehicules(Long id) {
         return !findById(id).getVehicules().isEmpty();
+    }
+
+    @Override
+    public String simuler(Long id, int jours, VehiculeOffre offre) {
+
+        Agence agence = findById(id);
+
+        double total = 0;
+
+        for (Vehicule v : agence.getVehicules()) {
+            total += vehiculeService.calculTarif(v, jours, offre);
+        }
+
+        return "Agence : id=" + agence.getIdAgence()
+                + ", nom=" + agence.getNom()
+                + ", tél=" + agence.getTelephone()
+                + "\nTotal des tarifs (" + jours
+                + " jours, offre " + offre + ") : "
+                + String.format(java.util.Locale.US, "%.2f", total);
     }
 }

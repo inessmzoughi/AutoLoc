@@ -4,7 +4,7 @@ import org.springframework.stereotype.Service;
 import tn.esprit.autoloc.Utils;
 import tn.esprit.autoloc.domain.Vehicule;
 import tn.esprit.autoloc.repository.IVehiculeRepository;
-
+import tn.esprit.autoloc.calcul.VehiculeOffre;
 @Service
 public class VehiculeServiceImpl extends GenericServiceImpl<Vehicule, Long> implements IVehiculeService {
 
@@ -42,5 +42,17 @@ public class VehiculeServiceImpl extends GenericServiceImpl<Vehicule, Long> impl
                 && v.getCategorie() != null
                 && v.getTarifJournalier() != null
                 && v.getStatut() != null;
+    }
+    @Override
+    public double calculTarif(Vehicule vehicule, int jours, VehiculeOffre offre) {
+        double tarif = vehicule.getTarifJournalier().doubleValue();
+        return switch (offre) {
+            case STANDARD -> tarif * jours;
+            case WEEKEND -> tarif * 0.80 * jours;
+            case LONGUE_DUREE -> {
+                double total = tarif * 0.75 * jours;
+                yield total > 2000 ? total * 0.95 : total;
+            }
+        };
     }
 }
